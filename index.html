@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+</head>
+<body>
+  <h1>Registration Form</h1>
+  <form id="registration-form" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" ><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" ><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" ><br>
+
+    <input type="submit" value="Register">
+  </form>
+  <script>
+    const form = document.getElementById('registration-form');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault(); // Prevents the form from submitting in the default way
+
+      console.log(form.elements.name.value)
+      // Create an object with the user's information
+      const user = {
+        name: form.elements.name.value,
+        mailID: form.elements.email.value,
+        passwords: form.elements.password.value
+      };
+
+      // Send a POST request to the API endpoint with the user's information in the request body
+      const response = await fetch('http://127.0.0.1:5000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+
+      if (response.ok) {
+        alert("success")
+      } else {
+        // If the registration failed, display an error message to the user
+        const errorMessage = await response.text();
+        alert(errorMessage);
+      }
+    });
+  </script>
+</body>
+
+</html>
